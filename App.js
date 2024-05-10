@@ -5,6 +5,7 @@ import { Header } from "./components/Header/Header";
 import { CardToDo } from "./components/CardToDo/CardToDo";
 import { useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
+import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
 
 export default function App() {
   const [todoList, setTodoList] = useState([
@@ -73,6 +74,7 @@ export default function App() {
             onPress={setSelectedTabName}
           />
         </View>
+        <ButtonAdd/>
       </SafeAreaView>
     </SafeAreaProvider>
   );
