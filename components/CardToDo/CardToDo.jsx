@@ -3,7 +3,6 @@ import { s } from "./CardToDo.style";
 import { FontAwesome6 } from "@expo/vector-icons";
 
 export function CardToDo({ todo, onPress }) {
-  console.log("Todo:", todo);
   return (
     <TouchableOpacity style={s.card} onPress={() => onPress(todo)}>
       <Text

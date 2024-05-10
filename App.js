@@ -27,17 +27,11 @@ export default function App() {
   }
 
   function updateTodo(todo) {
-    const updatedTodo = {
-      ...todo, //takes all the things I have in a single todo
-      isCompleted: !todo.isCompleted, // overwrites isCompleted to be whatever is in isCompleted currently.
-    };
-    const updatedTodoList = [...todoList];
-    const indexToUpdate = updatedTodoList.findIndex(
-      (t) => t.id === updatedTodo.id
+    const updatedTodo = { ...todo, isCompleted: !todo.isCompleted };
+    const updatedTodoList = todoList.map((todo) =>
+      todo.id === updatedTodo.id ? updatedTodo : todo
     );
-    updatedTodoList[indexToUpdate] = updatedTodo;
     setTodoList(updatedTodoList);
-    console.log(updateTodo);
   }
 
   return (
