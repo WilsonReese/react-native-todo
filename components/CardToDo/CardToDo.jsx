@@ -2,9 +2,10 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { s } from "./CardToDo.style";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-export function CardToDo({ todo }) {
+export function CardToDo({ todo, onPress }) {
+  console.log("Todo:", todo);
   return (
-    <TouchableOpacity style={s.card}>
+    <TouchableOpacity style={s.card} onPress={() => onPress(todo)}>
       <Text
         style={[
           s.title,

@@ -21,9 +21,23 @@ export default function App() {
   function renderTodoList() {
     return todoList.map((todo) => (
       <View key={todo.id} style={s.cardItem}>
-        <CardToDo todo={todo} />
+        <CardToDo onPress={updateTodo} todo={todo} />
       </View>
     ));
+  }
+
+  function updateTodo(todo) {
+    const updatedTodo = {
+      ...todo, //takes all the things I have in a single todo
+      isCompleted: !todo.isCompleted, // overwrites isCompleted to be whatever is in isCompleted currently.
+    };
+    const updatedTodoList = [...todoList];
+    const indexToUpdate = updatedTodoList.findIndex(
+      (t) => t.id === updatedTodo.id
+    );
+    updatedTodoList[indexToUpdate] = updatedTodo;
+    setTodoList(updatedTodoList);
+    console.log(updateTodo);
   }
 
   return (
