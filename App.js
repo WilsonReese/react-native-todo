@@ -18,6 +18,7 @@ export default function App() {
     { id: 8, title: "Do the dishes", isCompleted: false },
     { id: 9, title: "Clean my room", isCompleted: false },
   ]);
+  const [selectedTabName, setSelectedTabName] = useState("all")
 
   function renderTodoList() {
     return todoList.map((todo) => (
@@ -45,7 +46,7 @@ export default function App() {
           <ScrollView>{renderTodoList()}</ScrollView>
         </View>
         <View style={s.footer}>
-          <TabBottomMenu/>
+          <TabBottomMenu selectedTabName={selectedTabName} onPress={setSelectedTabName}/>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

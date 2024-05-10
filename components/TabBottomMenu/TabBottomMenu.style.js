@@ -5,7 +5,6 @@ export const s = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		paddingHorizontal: 20,
-		paddingTop: 10,
-		alignItems: "center",
+		paddingTop: 20,
 	},
 });
