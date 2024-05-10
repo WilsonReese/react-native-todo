@@ -7,6 +7,9 @@ export const s = StyleSheet.create({
         justifyContent: "space-evenly",
         padding: 16,
     },
+    cardItem: {
+        marginBottom: 15,
+    },
     header: {
         flex: 2,
     },

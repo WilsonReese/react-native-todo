@@ -19,7 +19,7 @@ export const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 25,
-    alignItems: "center"
+    alignItems: "center",
   },
 
   title: {
