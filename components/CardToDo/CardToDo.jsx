@@ -5,7 +5,14 @@ import { FontAwesome6 } from "@expo/vector-icons";
 export function CardToDo({ todo }) {
   return (
     <TouchableOpacity style={s.card}>
-      <Text style={s.title}>{todo.title}</Text>
+      <Text
+        style={[
+          s.title,
+          todo.isCompleted && { textDecorationLine: "line-through" },
+        ]}
+      >
+        {todo.title}
+      </Text>
       {todo.isCompleted && (
         <FontAwesome6
           style={s.checkmark}
