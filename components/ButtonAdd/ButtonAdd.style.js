@@ -14,6 +14,7 @@ export const s = StyleSheet.create({
     },
     text: {
         fontSize: 16,
+        fontWeight: "bold",
         color: "#2F76E5",
     },
 });

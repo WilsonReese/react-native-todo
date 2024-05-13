@@ -6,20 +6,14 @@ import { CardToDo } from "./components/CardToDo/CardToDo";
 import { useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
+import Dialog from "react-native-dialog";
+import uuid from "react-native-uuid";
 
 export default function App() {
-  const [todoList, setTodoList] = useState([
-    { id: 1, title: "Walk the dog", isCompleted: true },
-    { id: 2, title: "Do the dishes", isCompleted: false },
-    { id: 3, title: "Clean my room", isCompleted: false },
-    { id: 4, title: "Walk the dog", isCompleted: true },
-    { id: 5, title: "Do the dishes", isCompleted: false },
-    { id: 6, title: "Clean my room", isCompleted: false },
-    { id: 7, title: "Walk the dog", isCompleted: true },
-    { id: 8, title: "Do the dishes", isCompleted: false },
-    { id: 9, title: "Clean my room", isCompleted: false },
-  ]);
+  const [todoList, setTodoList] = useState([]);
   const [selectedTabName, setSelectedTabName] = useState("all");
+  const [isAddDialogDisplayed, setIsAddDialogDisplayed] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   function getFilteredList() {
     switch (selectedTabName) {
@@ -34,10 +28,14 @@ export default function App() {
 
   function deleteTodo(todoToDelete) {
     Alert.alert("Delete todo", "Are you sure you want to delete this todo?", [
-      { text: "Delete", style: "destructive", onPress: () => {
-        // console.log("Deleted:", todo)
-        setTodoList(todoList.filter((todo) => todo !== todoToDelete ))
-      } },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          // console.log("Deleted:", todo)
+          setTodoList(todoList.filter((todo) => todo !== todoToDelete));
+        },
+      },
       { text: "Cancel", style: "cancel" },
     ]);
   }
@@ -58,24 +56,58 @@ export default function App() {
     setTodoList(updatedTodoList);
   }
 
+  function addTodo() {
+    const newTodo = {
+      id: uuid.v4(),
+      title: inputValue,
+      isCompleted: false,
+    };
+    setTodoList([...todoList, newTodo]);
+    setIsAddDialogDisplayed(false);
+    setInputValue("");
+  }
+
+  function renderAddDialog() {
+    return (
+      <Dialog.Container
+        visible={isAddDialogDisplayed}
+        onBackdropPress={() => setIsAddDialogDisplayed(false)}
+      >
+        <Dialog.Title>Add todo</Dialog.Title>
+        <Dialog.Description>
+          Add a description for your todo.
+        </Dialog.Description>
+        <Dialog.Input
+          onChangeText={setInputValue}
+          placeholder="Go to the grocery store"
+        />
+        <Dialog.Button label="Cancel" onPress={() => setIsAddDialogDisplayed(false)} />
+        <Dialog.Button disabled={!inputValue} label="Add" onPress={addTodo} />
+      </Dialog.Container>
+    );
+  }
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={s.app}>
-        <View style={s.header}>
-          <Header />
-        </View>
-        <View style={s.body}>
-          <ScrollView>{renderTodoList()}</ScrollView>
-        </View>
-        <View style={s.footer}>
-          <TabBottomMenu
-            todoList={todoList}
-            selectedTabName={selectedTabName}
-            onPress={setSelectedTabName}
-          />
-        </View>
-        <ButtonAdd/>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <>
+      <SafeAreaProvider>
+        <SafeAreaView style={s.app}>
+          <View style={s.header}>
+            <Header />
+          </View>
+          <View style={s.body}>
+            <ScrollView>{renderTodoList()}</ScrollView>
+          </View>
+          <View style={s.footer}>
+            <TabBottomMenu
+              todoList={todoList}
+              selectedTabName={selectedTabName}
+              onPress={setSelectedTabName}
+            />
+          </View>
+          <ButtonAdd onPress={() => setIsAddDialogDisplayed(true)} />
+        </SafeAreaView>
+      </SafeAreaProvider>
+      {renderAddDialog()}
+    </>
   );
 }
