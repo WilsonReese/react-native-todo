@@ -72,6 +72,7 @@ export default function App() {
       <Dialog.Container
         visible={isAddDialogDisplayed}
         onBackdropPress={() => setIsAddDialogDisplayed(false)}
+        headerStyle={s.dialogHeader}
       >
         <Dialog.Title>Add todo</Dialog.Title>
         <Dialog.Description>
@@ -82,7 +83,7 @@ export default function App() {
           placeholder="Go to the grocery store"
         />
         <Dialog.Button label="Cancel" onPress={() => setIsAddDialogDisplayed(false)} />
-        <Dialog.Button disabled={!inputValue} label="Add" onPress={addTodo} />
+        <Dialog.Button disabled={!inputValue} label="Add" onPress={addTodo} bold="true" />
       </Dialog.Container>
     );
   }
