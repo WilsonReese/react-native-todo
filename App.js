@@ -3,17 +3,58 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { s } from "./App.style";
 import { Header } from "./components/Header/Header";
 import { CardToDo } from "./components/CardToDo/CardToDo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
 import Dialog from "react-native-dialog";
 import uuid from "react-native-uuid";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+let isFirstRender = true;
+let isLoadUpdate = false;
 
 export default function App() {
   const [todoList, setTodoList] = useState([]);
   const [selectedTabName, setSelectedTabName] = useState("all");
   const [isAddDialogDisplayed, setIsAddDialogDisplayed] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    loadTodoList();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoadUpdate) {
+      if (!isFirstRender) {
+        saveTodoList();
+      } else {
+        isFirstRender = false;
+      }
+    } else {
+      isLoadUpdate = false;
+    }
+  }, [todoList]);
+
+  async function loadTodoList() {
+    console.log("LOAD");
+    try {
+      const todoListString = await AsyncStorage.getItem("@todoList");
+      const parsedTodoList = JSON.parse(todoListString);
+      isLoadUpdate = true;
+      setTodoList(parsedTodoList || []);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  async function saveTodoList() {
+    console.log("SAVE");
+    try {
+      await AsyncStorage.setItem("@todoList", JSON.stringify(todoList));
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   function getFilteredList() {
     switch (selectedTabName) {
@@ -85,6 +126,7 @@ export default function App() {
         <Dialog.Input
           onChangeText={setInputValue}
           placeholder="Go to the grocery store"
+          keyboardType="default"
         />
         <Dialog.Button
           label="Cancel"
