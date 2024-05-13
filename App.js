@@ -41,11 +41,15 @@ export default function App() {
   }
 
   function renderTodoList() {
-    return getFilteredList().map((todo) => (
-      <View key={todo.id} style={s.cardItem}>
-        <CardToDo onLongPress={deleteTodo} onPress={updateTodo} todo={todo} />
-      </View>
-    ));
+    if (todoList.length > 0) {
+      return getFilteredList().map((todo) => (
+        <View key={todo.id} style={s.cardItem}>
+          <CardToDo onLongPress={deleteTodo} onPress={updateTodo} todo={todo} />
+        </View>
+      ));
+    } else {
+      return <Text>No items.</Text>;
+    }
   }
 
   function updateTodo(todo) {
@@ -82,8 +86,16 @@ export default function App() {
           onChangeText={setInputValue}
           placeholder="Go to the grocery store"
         />
-        <Dialog.Button label="Cancel" onPress={() => setIsAddDialogDisplayed(false)} />
-        <Dialog.Button disabled={!inputValue} label="Add" onPress={addTodo} bold="true" />
+        <Dialog.Button
+          label="Cancel"
+          onPress={() => setIsAddDialogDisplayed(false)}
+        />
+        <Dialog.Button
+          disabled={!inputValue}
+          label="Add"
+          onPress={addTodo}
+          bold="true"
+        />
       </Dialog.Container>
     );
   }
